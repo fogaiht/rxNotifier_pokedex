@@ -44,16 +44,16 @@ abstract class _LoginValidatorBase with Store {
     } else if (!RegExp(passwordRegExpression).hasMatch(value)) {
       if (!RegExp(passRegexSteps[0]).hasMatch(value)) {
         formError.attributes['password'] =
-            'A senha deve conter\numa letra maiúscula.';
+            'A senha deve conter uma letra maiúscula.';
       } else if (!RegExp(passRegexSteps[1]).hasMatch(value)) {
         formError.attributes['password'] =
-            'A senha deve conter\numa letra minúscula.';
+            'A senha deve conter uma letra minúscula.';
       } else if (!RegExp(passRegexSteps[2]).hasMatch(value)) {
         formError.attributes['password'] =
-            'A senha deve conter\npelo menos um número.';
+            'A senha deve conter pelo menos um número.';
       } else if (!RegExp(passRegexSteps[3]).hasMatch(value)) {
         formError.attributes['password'] =
-            'A senha deve conter\npelo menos um caracter especial';
+            'A senha deve conter pelo menos um caracter especial';
       }
     } else {
       formError.attributes['password'] = null;

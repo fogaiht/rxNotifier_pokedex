@@ -1,50 +1,114 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../login_controller.dart';
-import 'login_input_field_widget.dart';
+import '../login_button.dart';
 
-class LoginInputData extends StatelessWidget {
+class LoginInputData extends StatefulWidget {
   final LoginController controller;
 
   const LoginInputData(this.controller, {Key key}) : super(key: key);
+
+  @override
+  _LoginInputDataState createState() => _LoginInputDataState();
+}
+
+class _LoginInputDataState extends State<LoginInputData> {
+  final FocusNode _emailNode = FocusNode();
+  final FocusNode _passwordNode = FocusNode();
+
+  @override
+  void dispose() {
+    _emailNode.dispose();
+    _passwordNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.red,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
-              child: LoginInputField(controller),
-            ),
-            Container(
-                alignment: Alignment.centerLeft,
-                width: MediaQuery.of(context).size.width,
-                child: Row(
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            physics: NeverScrollableScrollPhysics(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                TextFormField(
+                  onChanged: widget.controller.rxStore.setEmail,
+                  focusNode: _emailNode,
+                  textInputAction: TextInputAction.next,
+                  onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(_passwordNode),
+                  cursorColor: Colors.yellow,
+                  style: TextStyle(color: Colors.black),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (v) => widget.controller.rxValidators.validateEmail(),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  decoration: InputDecoration(
+                    fillColor: Colors.transparent,
+                    border: InputBorder.none,
+                    prefixIcon: Icon(MdiIcons.emailOutline),
+                    hintText: "E-mail",
+                  ),
+                ),
+                SizedBox(height: 16),
+                RxBuilder(
+                  builder: (_) {
+                    return TextFormField(
+                      onChanged: widget.controller.rxStore.setPassword,
+                      focusNode: _passwordNode,
+                      onFieldSubmitted: (_) => widget.controller.signIn(),
+                      cursorColor: Colors.black,
+                      obscureText: !widget.controller.rxStore.showPassword,
+                      style: TextStyle(color: Colors.black),
+                      validator: (v) => widget.controller.rxValidators.validatePassword(),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                        fillColor: Colors.transparent,
+                        prefixIcon: Icon(
+                          MdiIcons.lockOutline,
+                        ),
+                        hintText: "Senha",
+                        errorMaxLines: 3,
+                        errorText: widget.controller.validators.formError.attributes["password"],
+                        suffixIcon: InkWell(
+                          onTap: widget.controller.rxStore.changeVisibility,
+                          child: Icon(
+                            widget.controller.rxStore.showPassword ? MdiIcons.eyeOutline : MdiIcons.eyeOffOutline,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    Observer(builder: (_) {
-                      return Checkbox(
-                        value: controller.store.rememberMe,
-                        onChanged: controller.store.changeRemember,
-                        activeColor: Colors.white,
-                        checkColor: Colors.black,
-                      );
-                    }),
+                    RxBuilder(
+                      builder: (_) {
+                        return Checkbox(
+                          value: widget.controller.rxStore.rememberMe,
+                          onChanged: widget.controller.rxStore.changeRemember,
+                          activeColor: Colors.white,
+                          checkColor: Colors.black,
+                        );
+                      },
+                    ),
                     Text(
                       'Lembre-se de mim',
-                      style: TextStyle(color: Color(0xffffffff)),
+                      style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ],
-                )),
-          ],
-        ),
-      ),
+                ),
+                LoginButton(widget.controller),
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 }

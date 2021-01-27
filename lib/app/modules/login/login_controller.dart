@@ -7,6 +7,8 @@ import '../../shared/models/login_model.dart';
 import '../../utils/custom_shared_preferences.dart';
 import '../../utils/sub_states.dart';
 import 'login_repository.dart';
+import 'login_rx_store.dart';
+import 'login_rx_validator.dart';
 import 'login_store.dart';
 import 'login_validator.dart';
 
@@ -17,9 +19,11 @@ class LoginController = _LoginControllerBase with _$LoginController;
 abstract class _LoginControllerBase with Store {
   final LoginRepository _loginRepository;
   final LoginValidator validators;
+  final LoginRxValidator rxValidators;
   final LoginStore store;
+  final LoginRxStore rxStore;
 
-  _LoginControllerBase(this._loginRepository, this.validators, this.store);
+  _LoginControllerBase(this._loginRepository, this.validators, this.store, this.rxStore, this.rxValidators);
 
   final CustomSharedPrefs prefs = CustomSharedPrefs();
 

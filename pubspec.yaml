@@ -17,6 +17,9 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  validators: ^2.0.1
+  functional_listener: ^1.1.1
+  rx_notifier: ^0.0.8
   intl: ^0.16.1
   material_design_icons_flutter: ^4.0.5345
   bot_toast: ^3.0.1

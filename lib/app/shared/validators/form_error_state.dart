@@ -9,7 +9,7 @@ abstract class _FormErrorState with Store {
   ObservableMap attributes = ObservableMap<String, dynamic>.of({});
 
   @computed
-  bool get hasErrors { 
+  bool get hasErrors {
     bool flag = false;
     attributes.forEach((key, value) {
       if (value != null) {

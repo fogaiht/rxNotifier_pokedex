@@ -4,6 +4,8 @@ import '../../shared/custom_dio/custom_dio.dart';
 import 'login_controller.dart';
 import 'login_page.dart';
 import 'login_repository.dart';
+import 'login_rx_store.dart';
+import 'login_rx_validator.dart';
 import 'login_store.dart';
 import 'login_validator.dart';
 
@@ -14,10 +16,14 @@ class LoginModule extends ChildModule {
               i.get<LoginRepository>(),
               i.get<LoginValidator>(),
               i.get<LoginStore>(),
+              i.get<LoginRxStore>(),
+              i.get<LoginRxValidator>(),
             )),
         Bind((i) => LoginRepository(i.get<CustomDio>())),
         Bind((i) => LoginValidator(i.get<LoginStore>())),
+        Bind((i) => LoginRxValidator(i.get<LoginRxStore>())),
         Bind((i) => LoginStore()),
+        Bind((i) => LoginRxStore()),
         Bind((i) => CustomDio()),
       ];
 
