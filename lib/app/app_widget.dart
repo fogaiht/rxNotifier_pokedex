@@ -1,7 +1,8 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:poke_api/app/utils/generate_material_colors.dart';
+
+import 'utils/generate_material_colors.dart';
 
 class AppWidget extends StatelessWidget {
   final MaterialColor whiteColor = MaterialColor(0xFFffffff, {50: Color(0xffffffff), 500: Color(0xffffffff)});

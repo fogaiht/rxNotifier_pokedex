@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'login_controller.dart';
-import 'widgets/login_input_data/login_input_data.dart';
+import 'widgets/fogaihtdev_image.dart';
+import 'widgets/login_input_data.dart';
 
 class LoginPage extends StatefulWidget {
   final String title;
@@ -13,8 +14,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends ModularState<LoginPage, LoginController> {
-  
-
   @override
   Widget build(BuildContext context) {
     double _heightSize = MediaQuery.of(context).size.height;
@@ -24,6 +23,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
         child: SafeArea(
           child: Container(
             height: _heightSize,
+            decoration: BoxDecoration(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
@@ -32,7 +32,8 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Pokedex",
+                      "Welcome\nto",
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 55,
                         fontFamily: "Pokemon",
@@ -41,7 +42,20 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                     ),
                   ],
                 ),
-                Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Pokeflutterdex",
+                      style: TextStyle(
+                        fontSize: 55,
+                        fontFamily: "Pokemon",
+                        color: Colors.yellow,
+                      ),
+                    ),
+                  ],
+                ),
+                FogaihtDevImage(alignment: MainAxisAlignment.center),
                 LoginInputData(controller),
                 Spacer(),
               ],

@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 
-import '../../../utils/components/state_button.dart';
-import '../login_controller.dart';
+import '../sub_states.dart';
+import 'state_button.dart';
 
-class LoginButton extends StatelessWidget {
-  final LoginController controller;
+class LoginSignUpButton extends StatelessWidget {
+  final SubState subState;
+  final String firstLabel;
+  final String secondLabel;
+  final Function firstOnTap;
+  final Function secondOnTap;
 
-  const LoginButton(this.controller, {Key key}) : super(key: key);
+  const LoginSignUpButton(
+     {
+    Key key,
+    @required this.subState,
+    @required this.firstLabel,
+    @required this.secondLabel,
+    @required this.firstOnTap,
+    @required this.secondOnTap,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,18 +29,18 @@ class LoginButton extends StatelessWidget {
           return Column(
             children: <Widget>[
               StateButton(
-                subState: controller.store.subState,
+                subState: subState,
                 secondaryColor: Colors.red,
                 primaryColor: Colors.white,
                 textLabel: Text(
-                  "LOGIN",
+                  firstLabel,
                   style: TextStyle(
                     color: Colors.red,
                     fontSize: 20,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                onTap: controller.signIn,
+                onTap: firstOnTap,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 32.0),
@@ -39,7 +50,7 @@ class LoginButton extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 32.0),
                       child: Text(
-                        "ou",
+                        "or",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -51,19 +62,19 @@ class LoginButton extends StatelessWidget {
                 ),
               ),
               StateButton(
-                subState: controller.store.subState,
+                subState: subState,
                 secondaryColor: Colors.red,
                 primaryColor: Colors.red,
                 borderColor: Colors.white,
                 textLabel: Text(
-                  "REGISTRAR",
+                  secondLabel,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                onTap: () => Modular.to.pushNamed("/signup"),
+                onTap: secondOnTap,
               ),
               SizedBox(height: 32.0)
             ],

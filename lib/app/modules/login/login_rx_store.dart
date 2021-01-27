@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:poke_api/app/utils/sub_states.dart';
 import 'package:rx_notifier/rx_notifier.dart';
+
+import '../../utils/sub_states.dart';
 
 class LoginRxStore {
   final _email = RxNotifier<String>("");

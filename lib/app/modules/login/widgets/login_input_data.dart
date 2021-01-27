@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-import '../../login_controller.dart';
-import '../login_button.dart';
+import '../../../utils/components/login_signup_button.dart';
+import '../login_controller.dart';
 
 class LoginInputData extends StatefulWidget {
   final LoginController controller;
@@ -70,9 +71,8 @@ class _LoginInputDataState extends State<LoginInputData> {
                         prefixIcon: Icon(
                           MdiIcons.lockOutline,
                         ),
-                        hintText: "Senha",
+                        hintText: "Password",
                         errorMaxLines: 3,
-                        errorText: widget.controller.validators.formError.attributes["password"],
                         suffixIcon: InkWell(
                           onTap: widget.controller.rxStore.changeVisibility,
                           child: Icon(
@@ -98,12 +98,18 @@ class _LoginInputDataState extends State<LoginInputData> {
                       },
                     ),
                     Text(
-                      'Lembre-se de mim',
+                      'Remember-me',
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ],
                 ),
-                LoginButton(widget.controller),
+                LoginSignUpButton(
+                  subState: widget.controller.rxStore.subState,
+                  firstLabel: "LOGIN",
+                  secondLabel: "REGISTER",
+                  firstOnTap: () => widget.controller.signIn(),
+                  secondOnTap: () => Modular.to.pushNamed("/signup"),
+                ),
               ],
             ),
           ),
