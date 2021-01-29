@@ -1,23 +1,23 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../shared/custom_dio/custom_dio.dart';
-import 'sign_up_controller.dart';
 import 'sign_up_page.dart';
 import 'sign_up_repository.dart';
-import 'sign_up_store.dart';
-import 'sign_up_validator.dart';
+import 'sign_up_rx_controller.dart';
+import 'sign_up_rx_store.dart';
+import 'sign_up_rx_validator.dart';
 
 class SignUpModule extends ChildModule {
   @override
   List<Bind> get binds => [
-        Bind((i) => SignUpController(
+        Bind((i) => SignUpRxController(
               i.get<SignUpRepository>(),
-              i.get<SignUpStore>(),
-              i.get<SignUpValidator>(),
+              i.get<SignUpRxStore>(),
+              i.get<SignUpRxValidator>(),
             )),
         Bind((i) => SignUpRepository(Modular.get<CustomDio>())),
-        Bind((i) => SignUpValidator(i.get<SignUpStore>())),
-        Bind((i) => SignUpStore()),
+        Bind((i) => SignUpRxValidator(i.get<SignUpRxStore>())),
+        Bind((i) => SignUpRxStore()),
       ];
 
   @override

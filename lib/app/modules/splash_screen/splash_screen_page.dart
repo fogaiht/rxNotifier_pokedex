@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:poke_api/app/shared/components/fogaihtdev_image.dart';
 
 class SplashScreenPage extends StatefulWidget {
   final String title;
@@ -76,18 +77,11 @@ class _SplashScreenPageState extends State<SplashScreenPage> with SingleTickerPr
             Positioned(
               bottom: 0,
               right: 0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: widthSize * 0.2,
-                      child: Image.asset('assets/FogaihtDev.png'),
-                    ),
-                  ),
-                ],
-              ),
+              child: Hero(
+                tag: "FogaihtDevImage",
+                child: 
+              
+              FogaihtDevImage()),
             )
           ],
         ),

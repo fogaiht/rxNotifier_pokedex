@@ -1,22 +1,20 @@
 import 'package:flutter_modular/flutter_modular_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:poke_api/app/modules/sign_up/sign_up_controller.dart';
 import 'package:poke_api/app/modules/sign_up/sign_up_module.dart';
+import 'package:poke_api/app/modules/sign_up/sign_up_rx_controller.dart';
 
 void main() {
   initModule(SignUpModule());
-  SignUpController signup;
+  SignUpRxController signup;
 
   setUp(() {
-    signup = SignUpModule.to.get<SignUpController>();
+    signup = SignUpModule.to.get<SignUpRxController>();
   });
 
-  group('SignUpController Test', () {
+  group('SignUpRxController Test', () {
     test("First Test", () {
-      expect(signup, isInstanceOf<SignUpController>());
+      expect(signup, isInstanceOf<SignUpRxController>());
     });
-
-    
   });
 }

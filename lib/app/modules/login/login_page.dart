@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'login_rx_controller.dart';
-import 'widgets/fogaihtdev_image.dart';
+import '../../shared/components/fogaihtdev_image.dart';
 import 'widgets/login_input_data.dart';
 
 class LoginPage extends StatefulWidget {
@@ -20,6 +20,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginRxController> {
     return Scaffold(
       backgroundColor: Colors.red,
       body: SingleChildScrollView(
+        // physics: NeverScrollableScrollPhysics(),
         child: SafeArea(
           child: Container(
             height: _heightSize,
@@ -55,7 +56,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginRxController> {
                     ),
                   ],
                 ),
-                FogaihtDevImage(alignment: MainAxisAlignment.center),
+                Hero(tag: "FogaihtDevImage", child: FogaihtDevImage()),
                 LoginInputData(controller),
                 Spacer(),
               ],
