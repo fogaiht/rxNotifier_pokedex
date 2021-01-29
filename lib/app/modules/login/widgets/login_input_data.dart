@@ -3,11 +3,11 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-import '../../../utils/components/login_signup_button.dart';
-import '../login_controller.dart';
+import '../../../shared/components/login_signup_button.dart';
+import '../login_rx_controller.dart';
 
 class LoginInputData extends StatefulWidget {
-  final LoginController controller;
+  final LoginRxController controller;
 
   const LoginInputData(this.controller, {Key key}) : super(key: key);
 
@@ -43,7 +43,9 @@ class _LoginInputDataState extends State<LoginInputData> {
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(_passwordNode),
                   cursorColor: Colors.yellow,
-                  style: TextStyle(color: Colors.black),
+                  cursorHeight: 25.0,
+                  cursorWidth: 2.5,
+                  style: TextStyle(color: Colors.white, fontSize: 20),
                   keyboardType: TextInputType.emailAddress,
                   validator: (v) => widget.controller.rxValidators.validateEmail(),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -51,7 +53,8 @@ class _LoginInputDataState extends State<LoginInputData> {
                     fillColor: Colors.transparent,
                     border: InputBorder.none,
                     prefixIcon: Icon(MdiIcons.emailOutline),
-                    hintText: "E-mail",
+                    hintText: " E-mail",
+                    hintStyle: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ),
                 SizedBox(height: 16),
@@ -61,17 +64,18 @@ class _LoginInputDataState extends State<LoginInputData> {
                       onChanged: widget.controller.rxStore.setPassword,
                       focusNode: _passwordNode,
                       onFieldSubmitted: (_) => widget.controller.signIn(),
-                      cursorColor: Colors.black,
+                      cursorColor: Colors.yellow,
+                      cursorHeight: 25.0,
+                      cursorWidth: 2.5,
                       obscureText: !widget.controller.rxStore.showPassword,
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                       validator: (v) => widget.controller.rxValidators.validatePassword(),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: InputDecoration(
                         fillColor: Colors.transparent,
-                        prefixIcon: Icon(
-                          MdiIcons.lockOutline,
-                        ),
-                        hintText: "Password",
+                        prefixIcon: Icon(MdiIcons.lockOutline),
+                        hintText: " Password",
+                        hintStyle: TextStyle(color: Colors.white, fontSize: 20),
                         errorMaxLines: 3,
                         suffixIcon: InkWell(
                           onTap: widget.controller.rxStore.changeVisibility,
@@ -103,12 +107,16 @@ class _LoginInputDataState extends State<LoginInputData> {
                     ),
                   ],
                 ),
-                LoginSignUpButton(
-                  subState: widget.controller.rxStore.subState,
-                  firstLabel: "LOGIN",
-                  secondLabel: "REGISTER",
-                  firstOnTap: () => widget.controller.signIn(),
-                  secondOnTap: () => Modular.to.pushNamed("/signup"),
+                RxBuilder(
+                  builder: (_) {
+                    return LoginSignUpButton(
+                      subState: widget.controller.rxStore.subState,
+                      firstLabel: "LOGIN",
+                      secondLabel: "REGISTER",
+                      firstOnTap: () => widget.controller.signIn(),
+                      secondOnTap: () => Modular.to.pushNamed("/signup"),
+                    );
+                  },
                 ),
               ],
             ),

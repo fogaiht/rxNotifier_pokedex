@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'login_controller.dart';
+import 'login_rx_controller.dart';
 import 'widgets/fogaihtdev_image.dart';
 import 'widgets/login_input_data.dart';
 
@@ -13,7 +13,7 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends ModularState<LoginPage, LoginController> {
+class _LoginPageState extends ModularState<LoginPage, LoginRxController> {
   @override
   Widget build(BuildContext context) {
     double _heightSize = MediaQuery.of(context).size.height;

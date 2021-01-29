@@ -133,8 +133,20 @@ class _PokedexBottomState extends State<PokedexBottom> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ScanView(
-                      cornerColor: Colors.red,
-                    ),
+                        scanWidget: Center(
+                          child: ClipPath(
+                            clipper: Mask(),
+                            child: Container(
+                              // padding: EdgeInsets.all(),
+                              decoration: BoxDecoration(
+                                color: Color(0xff555555),
+                                // border: Border.all(width: 5.0, color: Colors.green, style: BorderStyle.solid),
+                              ),
+                              // width: MediaQuery.of(context).size.width * (0.9),
+                              // height: MediaQuery.of(context).size.width * (0.9),
+                            ),
+                          ),
+                        )),
                   ),
                 );
 
@@ -232,6 +244,34 @@ class ClipPlus extends CustomClipper<Path> {
     path.lineTo((size.width), (size.height / 3));
     path.lineTo(2 * (size.width / 3), (size.height / 3));
     path.lineTo(2 * (size.width / 3), 0.0);
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return oldClipper != this;
+  }
+}
+
+class Mask extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var qrHole = RRect.fromLTRBR(
+      size.width * .085,
+      size.height * .16,
+      size.width * .91,
+      size.height * .69,
+      Radius.circular(10),
+    );
+
+    var path = Path()
+      ..moveTo(0, 0)
+      ..lineTo(size.width * 0, size.height * 1)
+      ..lineTo(size.width * 1, size.height * 1)
+      ..lineTo(size.width * 1, size.height * 0)
+      ..fillType = PathFillType.evenOdd
+      ..addRRect(qrHole);
+    path.close();
     return path;
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-import '../../../utils/components/state_button.dart';
+import '../../../shared/components/state_button.dart';
 import '../sign_up_controller.dart';
 
 class CreateAccountButton extends StatelessWidget {

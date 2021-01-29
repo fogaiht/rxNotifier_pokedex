@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:poke_api/app/shared/components/custom_circular_progress.dart';
 
-import '../../../../../utils/components/custom_circular_progress.dart';
 import '../../../home_controller.dart';
 
 class PokedexScreen extends StatefulWidget {
