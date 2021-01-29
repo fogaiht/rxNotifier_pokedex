@@ -19,6 +19,7 @@ class LoginRepository extends Disposable {
     try {
       await Future.delayed(Duration(milliseconds: 1500));
       var response = await _customDio.login();
+      await prefs.save("token", response.data["token"]);
       var userResponse = UserModel.fromJson(response.data["user"]);
       return userResponse;
     } on DioError catch (e) {

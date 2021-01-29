@@ -21,8 +21,8 @@ class LoginRxController {
 
     print(rxStore.email);
     print(rxStore.password);
-    prefs.save("userData", model);
-    prefs.save("userEmail", model.email);
+    await prefs.save("userData", model);
+    await prefs.save("userEmail", model.email);
 
     try {
       rxStore.setSubState(SubState.loading);
