@@ -22,6 +22,7 @@ class _PokedexBottomState extends State<PokedexBottom> {
   Widget build(BuildContext context) {
     double widthSize = MediaQuery.of(context).size.width;
     double heightSize = MediaQuery.of(context).size.height * 0.23;
+    double heightSize1 = MediaQuery.of(context).size.height;
 
     return Container(
       height: heightSize,
@@ -133,20 +134,23 @@ class _PokedexBottomState extends State<PokedexBottom> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ScanView(
-                        scanWidget: Center(
-                          child: ClipPath(
-                            clipper: Mask(),
-                            child: Container(
-                              // padding: EdgeInsets.all(),
-                              decoration: BoxDecoration(
-                                color: Color(0xff555555),
-                                // border: Border.all(width: 5.0, color: Colors.green, style: BorderStyle.solid),
-                              ),
-                              // width: MediaQuery.of(context).size.width * (0.9),
-                              // height: MediaQuery.of(context).size.width * (0.9),
+                      screenCamSize: Size(widthSize * .83, heightSize1 * .54),
+                      positionCam: Size(widthSize * .085, heightSize1 * 0.16),
+                      scanWidget: Center(
+                        child: ClipPath(
+                          clipper: Mask(),
+                          child: Container(
+                            // padding: EdgeInsets.all(),
+                            decoration: BoxDecoration(
+                              color: Color(0xff555555),
+                              // border: Border.all(width: 5.0, color: Colors.green, style: BorderStyle.solid),
                             ),
+                            // width: MediaQuery.of(context).size.width * (0.9),
+                            // height: MediaQuery.of(context).size.width * (0.9),
                           ),
-                        )),
+                        ),
+                      ),
+                    ),
                   ),
                 );
 

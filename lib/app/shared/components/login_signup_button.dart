@@ -115,7 +115,7 @@ class _LoginSignUpButtonState extends State<LoginSignUpButton> {
           child: Icon(
             Icons.check,
             color: Colors.white,
-            size: 40,
+            size: 30,
           ),
         );
       case SubState.error:
