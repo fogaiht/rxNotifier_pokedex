@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:poke_api/app/shared/components/custom_circular_progress.dart';
+import 'package:poke_api/app/shared/models/pokemon_model.dart';
+import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../../home_controller.dart';
 
 class PokedexScreen extends StatefulWidget {
-  final int pokeNumber;
+  final Function getSelectedPokemon;
+  final List<PokemonModel> pokemonList;
+  final int selectedPokemonIndex;
   final HomeController homeController;
 
-  const PokedexScreen({Key key, this.pokeNumber, @required this.homeController}) : super(key: key);
+  const PokedexScreen({
+    Key key,
+    @required this.homeController,
+    this.getSelectedPokemon,
+    this.pokemonList,
+    this.selectedPokemonIndex,
+  }) : super(key: key);
 
   @override
   _PokedexScreenState createState() => _PokedexScreenState();
 }
 
-List<String> cardGenerate = List<String>.generate(30, (i) {
-  return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png";
-});
+// List<String> cardGenerate = List<String>.generate(30, (i) {
+//   return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png";
+// });
 
 class _PokedexScreenState extends State<PokedexScreen> {
   @override
@@ -58,13 +68,12 @@ class _PokedexScreenState extends State<PokedexScreen> {
                 borderRadius: BorderRadius.all(Radius.circular(heightSize * 0.05)),
                 color: Color(0xff222222),
               ),
-              child: Observer(builder: (_) {
+              child: RxBuilder(builder: (_) {
                 return Center(
-                  child: widget.homeController.store.user?.pokemonList == null
+                  child: widget.pokemonList == null
                       ? CustomCircularProgress()
-                      : widget.homeController.store.screenIndex == -1
+                      : widget.selectedPokemonIndex == -1
                           ? Text(
-                              //         // "${20}\nPokemons",
                               "${widget.homeController.store.user.pokemonList.length}\nPokemons",
                               style: TextStyle(
                                 color: Color(0xff00ff00),

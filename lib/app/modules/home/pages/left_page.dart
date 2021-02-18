@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:super_qr_reader/super_qr_reader.dart';
 
-import '../components/pokedex/pokedex_left/poke_join_left.dart';
-import '../components/pokedex/pokedex_left/pokedex_bottom.dart';
-import '../components/pokedex/pokedex_left/pokedex_header.dart';
-import '../components/pokedex/pokedex_left/pokedex_screen.dart';
+import 'left/components/left_joint.dart';
+import 'left/components/pokedex_bottom.dart';
+import 'left/components/pokedex_header.dart';
+import 'left/components/pokedex_screen.dart';
 import '../home_controller.dart';
 
 class LeftPage extends StatelessWidget {
@@ -12,6 +13,9 @@ class LeftPage extends StatelessWidget {
   const LeftPage({Key key, this.homeController}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    double widthSize = MediaQuery.of(context).size.width;
+    double heightSize1 = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -21,11 +25,49 @@ class LeftPage extends StatelessWidget {
                 Spacer(),
                 PokedexHeader(),
                 Center(
-                  child: PokedexScreen(
-                    homeController: homeController,
-                  ),
+                    child: PokedexScreen(
+                  homeController: homeController,
+                  pokemonList: homeController.store.user.pokemonList,
+                  selectedPokemonIndex: homeController.store.screenIndex,
+                )),
+                PokedexBottom(
+                  onLeftTap: homeController.store.decrement,
+                  onRightTap: homeController.store.increment,
+                  scanQrCode: () async {
+                    String results = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ScanView(
+                          screenCamSize: Size(widthSize * .83, heightSize1 * .54),
+                          positionCam: Size(widthSize * .085, heightSize1 * 0.16),
+                          scanWidget: Center(
+                            child: ClipPath(
+                              clipper: Mask(),
+                              child: Container(decoration: BoxDecoration(color: Color(0xff555555))),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+
+                    if (results != null) {
+                      homeController.addPokemon(results);
+                    }
+                  },
+                  selectPokemon: () {
+                    var pokemonIndex = homeController.store.screenIndex;
+                    var userPokemonList = homeController.store.user.pokemonList;
+                    if (pokemonIndex >= 0) {
+                      homeController.store.selectPokemon(userPokemonList[pokemonIndex]);
+                      print(homeController.store.selectedPokemon);
+                      homeController.pageController.animateToPage(
+                        1,
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.ease,
+                      );
+                    }
+                  },
                 ),
-                PokedexBottom(homeController: homeController),
                 Spacer(),
               ],
             ),
@@ -34,7 +76,7 @@ class LeftPage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Spacer(),
-                  PokejoinLeft(),
+                  LeftJoint(),
                   Spacer(),
                 ],
               ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class PokejoinLeft extends StatefulWidget {
+class LeftJoint extends StatefulWidget {
   @override
-  _PokejoinLeftState createState() => _PokejoinLeftState();
+  _LeftJointState createState() => _LeftJointState();
 }
 
-class _PokejoinLeftState extends State<PokejoinLeft> {
+class _LeftJointState extends State<LeftJoint> {
   @override
   Widget build(BuildContext context) {
     // double widthSize = MediaQuery.of(context).size.width * 0.1;
