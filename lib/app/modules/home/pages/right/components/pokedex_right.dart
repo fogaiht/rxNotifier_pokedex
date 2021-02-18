@@ -17,11 +17,8 @@ class _PokedexRightState extends State<PokedexRight> {
       child: Stack(
         children: <Widget>[
           Positioned(
-              top: heightSize * 0.152,
-              bottom: heightSize * 0.025,
-              child: PokedexScreenRight()),
-          Positioned(
-              bottom: heightSize * 0.025, left: 0, child: PokejoinRight()),
+              top: heightSize * 0.152, bottom: heightSize * 0.025, child: PokedexScreenRight(selectedPokemon: null)),
+          Positioned(bottom: heightSize * 0.025, left: 0, child: PokejoinRight()),
         ],
       ),
     );

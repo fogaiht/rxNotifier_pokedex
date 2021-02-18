@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:rx_notifier/rx_notifier.dart';
 import 'package:super_qr_reader/super_qr_reader.dart';
 
-import 'left/components/left_joint.dart';
-import 'left/components/pokedex_bottom.dart';
-import 'left/components/pokedex_header.dart';
-import 'left/components/pokedex_screen.dart';
-import '../home_controller.dart';
+import '../../home_rx_controller.dart';
+import 'components/left_joint.dart';
+import 'components/pokedex_bottom.dart';
+import 'components/pokedex_header.dart';
+import 'components/pokedex_screen.dart';
 
-class LeftPage extends StatelessWidget {
-  final HomeController homeController;
+class LeftPage extends StatefulWidget {
+  final HomeRxController rxController;
 
-  const LeftPage({Key key, this.homeController}) : super(key: key);
+  final PageController pageController;
+
+  const LeftPage({
+    Key key,
+    @required this.pageController,
+    @required this.rxController,
+  }) : super(key: key);
+
+  @override
+  _LeftPageState createState() => _LeftPageState();
+}
+
+class _LeftPageState extends State<LeftPage> {
   @override
   Widget build(BuildContext context) {
     double widthSize = MediaQuery.of(context).size.width;
@@ -25,14 +38,20 @@ class LeftPage extends StatelessWidget {
                 Spacer(),
                 PokedexHeader(),
                 Center(
-                    child: PokedexScreen(
-                  homeController: homeController,
-                  pokemonList: homeController.store.user.pokemonList,
-                  selectedPokemonIndex: homeController.store.screenIndex,
-                )),
+                  child: RxBuilder(
+                    builder: (_) {
+                      return PokedexScreen(
+                        pokemonList: widget.rxController.store.user.pokemonList,
+                        selectedPokemonIndex: widget.rxController.store.screenIndex,
+                        selectedPokemon: widget.rxController.store.selectedPokemon,
+                        pokemonURL: widget.rxController.store.currentURL,
+                      );
+                    },
+                  ),
+                ),
                 PokedexBottom(
-                  onLeftTap: homeController.store.decrement,
-                  onRightTap: homeController.store.increment,
+                  onLeftTap: widget.rxController.decrement,
+                  onRightTap: widget.rxController.increment,
                   scanQrCode: () async {
                     String results = await Navigator.push(
                       context,
@@ -51,16 +70,16 @@ class LeftPage extends StatelessWidget {
                     );
 
                     if (results != null) {
-                      homeController.addPokemon(results);
+                      widget.rxController.addPokemon(results);
                     }
                   },
                   selectPokemon: () {
-                    var pokemonIndex = homeController.store.screenIndex;
-                    var userPokemonList = homeController.store.user.pokemonList;
+                    var pokemonIndex = widget.rxController.store.screenIndex;
+                    var userPokemonList = widget.rxController.store.user.pokemonList;
                     if (pokemonIndex >= 0) {
-                      homeController.store.selectPokemon(userPokemonList[pokemonIndex]);
-                      print(homeController.store.selectedPokemon);
-                      homeController.pageController.animateToPage(
+                      widget.rxController.store.setSelectedPokemon(userPokemonList[pokemonIndex]);
+                      print(widget.rxController.store.selectedPokemon);
+                      widget.pageController.animateToPage(
                         1,
                         duration: Duration(milliseconds: 500),
                         curve: Curves.ease,

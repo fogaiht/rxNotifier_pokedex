@@ -1,6 +1,8 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:poke_api/app/shared/components/custom_circular_progress.dart';
 
 import '../../../../../shared/models/pokemon_model.dart';
 import 'pokedex_base_stats.dart';
@@ -24,7 +26,7 @@ class _PokeInfoState extends State<PokeInfo> {
     double widthSize = MediaQuery.of(context).size.width * 0.91;
     double heightSize = MediaQuery.of(context).size.height * 0.848;
 
-    var pokemon =  widget.selectedPokemon;
+    var pokemon = widget.selectedPokemon;
     return ClipPath(
       clipper: ClipScreen(),
       child: Container(
@@ -53,8 +55,7 @@ class _PokeInfoState extends State<PokeInfo> {
               top: heightSize * 0.05,
               child: Text(
                 "Quem é",
-                style: TextStyle(
-                    fontSize: 35, fontFamily: "Pokemon", color: Colors.yellow),
+                style: TextStyle(fontSize: 35, fontFamily: "Pokemon", color: Colors.yellow),
               ),
             ),
             Positioned(
@@ -62,8 +63,7 @@ class _PokeInfoState extends State<PokeInfo> {
               top: heightSize * 0.12,
               child: Text(
                 "esse Pokémon?",
-                style: TextStyle(
-                    fontSize: 35, fontFamily: "Pokemon", color: Colors.yellow),
+                style: TextStyle(fontSize: 35, fontFamily: "Pokemon", color: Colors.yellow),
               ),
             ),
             Align(
@@ -108,9 +108,25 @@ class _PokeInfoState extends State<PokeInfo> {
                                   baseStats = !baseStats;
                                 });
                               },
-                              child: Opacity(
-                                opacity: 1,
-                                child: Transform.scale(scale: 2.2,child: Image.network(widget.selectedPokemon.sprites.frontDefault)),
+                              child: CachedNetworkImage(
+                                imageUrl: pokemon.sprites.frontDefault,
+                                imageBuilder: (context, imageProvider) {
+                                  return Transform.scale(
+                                    scale: 2.2,
+                                    child: Hero(
+                                      tag: "pokemonImage",
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(image: imageProvider),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                progressIndicatorBuilder: (context, url, downloadProgress) {
+                                  return Center(child: CustomCircularProgress());
+                                },
+                                errorWidget: (context, url, error) => Icon(Icons.error),
                               ),
                             ),
                           ),
@@ -142,10 +158,7 @@ class _PokeInfoState extends State<PokeInfo> {
                           children: <Widget>[
                             Text(
                               "#${pokemon.id}",
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  fontFamily: "Pokemon",
-                                  color: Colors.yellow),
+                              style: TextStyle(fontSize: 30, fontFamily: "Pokemon", color: Colors.yellow),
                             ),
                           ],
                         ),
@@ -169,14 +182,8 @@ class _PokeInfoState extends State<PokeInfo> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: baseStats
-                                ? Transform.scale(
-                                    scale: 1,
-                                    child: Image.asset(
-                                        'assets/capturedPokemonStar2.png'))
-                                : Transform.scale(
-                                    scale: 1,
-                                    child: Image.asset(
-                                        'assets/notCapturedPokemonStar2.png'))
+                                ? Transform.scale(scale: 1, child: Image.asset('assets/capturedPokemonStar2.png'))
+                                : Transform.scale(scale: 1, child: Image.asset('assets/notCapturedPokemonStar2.png'))
                             // Text(
                             //     "Captured",
                             //     textAlign: TextAlign.center,
@@ -229,25 +236,27 @@ class _PokeInfoState extends State<PokeInfo> {
                                 ),
                               ),
                             ),
-                            pokemon.types.length > 1 ? Container(
-                              width: widthSize * 0.18,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: Colors.red,
-                                ),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "${pokemon.types[1].type.name}",
-                                  style: TextStyle(
-                                    fontSize: heightSize * 0.02,
-                                    fontFamily: "Montserrat",
-                                  ),
-                                ),
-                              ),
-                            ) : SizedBox(),
+                            pokemon.types.length > 1
+                                ? Container(
+                                    width: widthSize * 0.18,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Colors.red,
+                                      ),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "${pokemon.types[1].type.name}",
+                                        style: TextStyle(
+                                          fontSize: heightSize * 0.02,
+                                          fontFamily: "Montserrat",
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : SizedBox(),
                           ],
                         ),
                       ),

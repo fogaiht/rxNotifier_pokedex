@@ -1,23 +1,21 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:poke_api/app/shared/components/custom_circular_progress.dart';
-import 'package:poke_api/app/shared/models/pokemon_model.dart';
-import 'package:rx_notifier/rx_notifier.dart';
 
-import '../../../home_controller.dart';
+import '../../../../../shared/components/custom_circular_progress.dart';
+import '../../../../../shared/models/pokemon_model.dart';
 
 class PokedexScreen extends StatefulWidget {
-  final Function getSelectedPokemon;
+  final PokemonModel selectedPokemon;
+  final String pokemonURL;
   final List<PokemonModel> pokemonList;
   final int selectedPokemonIndex;
-  final HomeController homeController;
 
   const PokedexScreen({
     Key key,
-    @required this.homeController,
-    this.getSelectedPokemon,
+    this.selectedPokemon,
     this.pokemonList,
     this.selectedPokemonIndex,
+    this.pokemonURL,
   }) : super(key: key);
 
   @override
@@ -68,23 +66,40 @@ class _PokedexScreenState extends State<PokedexScreen> {
                 borderRadius: BorderRadius.all(Radius.circular(heightSize * 0.05)),
                 color: Color(0xff222222),
               ),
-              child: RxBuilder(builder: (_) {
-                return Center(
-                  child: widget.pokemonList == null
-                      ? CustomCircularProgress()
-                      : widget.selectedPokemonIndex == -1
-                          ? Text(
-                              "${widget.homeController.store.user.pokemonList.length}\nPokemons",
-                              style: TextStyle(
-                                color: Color(0xff00ff00),
-                                fontSize: 45,
-                                fontFamily: 'SevenSegment',
-                              ),
-                              textAlign: TextAlign.center,
-                            )
-                          : Transform.scale(scale: 2.3, child: Image.network(widget.homeController.store.currentURL)),
-                );
-              }),
+              child: Center(
+                child: widget.pokemonList == null
+                    ? CustomCircularProgress()
+                    : widget.selectedPokemonIndex == -1
+                        ? Text(
+                            "${widget.pokemonList.length}\nPokemons",
+                            style: TextStyle(
+                              color: Color(0xff00ff00),
+                              fontSize: 45,
+                              fontFamily: 'SevenSegment',
+                            ),
+                            textAlign: TextAlign.center,
+                          )
+                        : CachedNetworkImage(
+                            imageUrl: widget.pokemonURL,
+                            imageBuilder: (context, imageProvider) {
+                              return Transform.scale(
+                                scale: 2.2,
+                                child: Hero(
+                                  tag: "pokemonImage",
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(image: imageProvider),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            progressIndicatorBuilder: (context, url, downloadProgress) {
+                              return Center(child: CustomCircularProgress());
+                            },
+                            errorWidget: (context, url, error) => Icon(Icons.error),
+                          ),
+              ),
             ),
           ),
           Positioned(

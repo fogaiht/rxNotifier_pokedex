@@ -2,23 +2,23 @@ import 'package:flutter_modular/flutter_modular_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import 'package:poke_api/app/modules/home/home_controller.dart';
 import 'package:poke_api/app/modules/home/home_module.dart';
+import 'package:poke_api/app/modules/home/home_rx_controller.dart';
 import 'package:poke_api/app/shared/auth/http_provider.dart';
 
 class HttpMock extends Mock implements HttpProvider{}
 
 void main() {
   initModule(HomeModule());
-  HomeController home;
+  HomeRxController home;
 
   setUp(() {
-    home = HomeModule.to.get<HomeController>();
+    home = HomeModule.to.get<HomeRxController>();
   });
 
   group('HomeController Test', () {
     test("First Test", () {
-      expect(home, isInstanceOf<HomeController>());
+      expect(home, isInstanceOf<HomeRxController>());
     });
 
   });

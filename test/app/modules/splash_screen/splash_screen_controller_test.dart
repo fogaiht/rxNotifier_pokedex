@@ -16,11 +16,5 @@ void main() {
     test("First Test", () {
       expect(splashscreen, isInstanceOf<SplashScreenController>());
     });
-
-    test("Set Value", () {
-      expect(splashscreen.value, equals(0));
-      splashscreen.increment();
-      expect(splashscreen.value, equals(1));
-    });
   });
 }

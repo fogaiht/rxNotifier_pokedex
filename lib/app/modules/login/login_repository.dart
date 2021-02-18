@@ -15,6 +15,7 @@ class LoginRepository extends Disposable {
   Future<UserModel> signIn(LoginModel model) async {
     print(model.toJson().toString());
     prefs.save("userData", model);
+    prefs.save("userData", {"email": "thiago@f.com", "password": "Teste@123"});
 
     try {
       await Future.delayed(Duration(milliseconds: 1500));

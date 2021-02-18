@@ -6,8 +6,7 @@ import 'pokedex_pokeinfo.dart';
 class PokedexScreenRight extends StatefulWidget {
   final PokemonModel selectedPokemon;
 
-  const PokedexScreenRight({Key key, this.selectedPokemon}) : super(key: key);
-
+  const PokedexScreenRight({Key key, @required this.selectedPokemon}) : super(key: key);
 
   @override
   _PokedexScreenRightState createState() => _PokedexScreenRightState();
@@ -21,7 +20,6 @@ class _PokedexScreenRightState extends State<PokedexScreenRight> {
     double widthSize = MediaQuery.of(context).size.width;
     double heightSize = MediaQuery.of(context).size.height;
 
-    print(widget.selectedPokemon.name);
     return ClipPath(
       clipper: ClipScreenShadow(),
       child: Container(
@@ -41,11 +39,12 @@ class _PokedexScreenRightState extends State<PokedexScreenRight> {
               ),
             ),
             Positioned(
-                top: heightSize * 0.03,
-                bottom: heightSize * 0.03,
-                right: heightSize * 0.03,
-                left: heightSize * 0.03,
-                child: PokeInfo(selectedPokemon: widget.selectedPokemon)),
+              top: heightSize * 0.03,
+              bottom: heightSize * 0.03,
+              right: heightSize * 0.03,
+              left: heightSize * 0.03,
+              child: PokeInfo(selectedPokemon: widget.selectedPokemon),
+            ),
           ],
         ),
       ),
