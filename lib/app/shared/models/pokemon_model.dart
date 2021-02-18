@@ -455,6 +455,9 @@ class StatElement {
 
   @override
   int get hashCode => baseStat.hashCode ^ effort.hashCode ^ stat.hashCode;
+
+  @override
+  String toString() => 'StatElement(baseStat: $baseStat, effort: $effort, stat: $stat)';
 }
 
 class TypeClass {

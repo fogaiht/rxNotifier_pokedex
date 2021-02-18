@@ -79,7 +79,7 @@ class _PokeInfoState extends State<PokeInfo> {
                 ),
               ),
             ),
-            Positioned(bottom: 0, child: PokedexBaseStats()),
+            Positioned(bottom: 0, child: PokedexBaseStats(selectedPokemon: widget.selectedPokemon)),
             Positioned(
               top: heightSize * 0.2,
               child: Container(
