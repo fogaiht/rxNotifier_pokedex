@@ -20,6 +20,5 @@ class HomeRxStore {
   setSelectedPokemon(PokemonModel value) {
     _selectedPokemon.value = value;
     setCurrentURL(value?.sprites?.frontDefault);
-    if (screenIndex + 1 != user.pokemonList.length) {}
   }
 }
